@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lebensphasen-Rechner (PKV/GKV) – V8e</title>
+<title>Lebensphasen-Rechner (PKV/GKV) – V9</title>
 <style>
-  :root {
+  :root{
     --bg:#f3f4f8;
     --panel:#ffffff;
     --ink:#0f172a;
@@ -13,57 +13,55 @@
     --border:#e5e7eb;
     --blue:#1d4ed8;
     --blue-soft:#dbeafe;
-    --blue-deep:#1e40af;
+    --blue-deep:#1e3a8a;
     --red:#dc2626;
     --red-soft:#fee2e2;
     --red-deep:#b91c1c;
   }
-  *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+  *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
   body{margin:0;background:var(--bg);color:var(--ink)}
   header{
-    padding:16px 18px;
-    background:linear-gradient(90deg,#e0ecff,#eef2ff);
+    padding:14px 18px;
+    background:linear-gradient(90deg,#e0ecff,#e5ebff);
     border-bottom:1px solid var(--border);
   }
   header h1{margin:0;font-size:20px;font-weight:800}
-  header p{margin:4px 0 0;color:#475569;font-size:12px}
+  header p{margin:4px 0 0;font-size:12px;color:#4b5563}
   header a{color:#1d4ed8;text-decoration:none}
   header a:hover{text-decoration:underline}
 
   main{
     display:grid;
-    grid-template-columns:1.12fr 1fr;
+    grid-template-columns:1.2fr 1fr;
     gap:14px;
     padding:14px;
   }
-  @media(max-width:1050px){
-    main{grid-template-columns:1fr}
-  }
+  @media(max-width:1050px){main{grid-template-columns:1fr}}
 
   .card{
     background:var(--panel);
-    border:1px solid var(--border);
     border-radius:14px;
+    border:1px solid var(--border);
     padding:12px;
     box-shadow:0 4px 14px rgba(15,23,42,0.06);
   }
-  h2{font-size:16px;margin:0 0 10px 0}
+  h2{margin:0 0 10px;font-size:16px}
 
   label{display:block;font-size:12px;color:#334155;margin:6px 0 4px}
   input,select{
     width:100%;
-    padding:9px 10px;
-    border:1px solid var(--border);
+    padding:8px 10px;
     border-radius:10px;
+    border:1px solid var(--border);
     background:#fbfdff;
-    color:#0f172a;
     font-size:13px;
   }
   input:focus,select:focus{
     outline:none;
     border-color:#2563eb;
-    box-shadow:0 0 0 1px rgba(37,99,235,0.15);
+    box-shadow:0 0 0 1px rgba(37,99,235,.18);
   }
+
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
   .grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
@@ -73,86 +71,17 @@
 
   .inline{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
   .btn{
-    background:var(--blue);
-    border:0;border-radius:10px;
-    color:#fff;
-    padding:9px 14px;
+    border-radius:10px;
+    border:0;
+    padding:8px 14px;
     font-size:13px;
     cursor:pointer;
-  }
-  .btn.ghost{
-    background:#eef2ff;
-    color:#1e3a8a;
-    border:1px solid #c7d2fe;
-  }
-  .btn.warn{background:#f97373}
-  .btn:hover{filter:brightness(1.03)}
-
-  .hint{font-size:11px;color:var(--muted);line-height:1.25}
-
-  /* Beschäftigung optisch hervorheben */
-  .employment-wrapper select{
-    background:#eef2ff;
-    border-color:#bfdbfe;
-    color:#1e40af;
     font-weight:600;
   }
-
-  table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:10px;
-    background:#ffffff;
-    border-radius:10px;
-    overflow:hidden;
-  }
-  th,td{
-    padding:6px 8px;
-    border-bottom:1px solid var(--border);
-    text-align:right;
-    font-variant-numeric:tabular-nums;
-    font-size:11px;
-  }
-  th:first-child,td:first-child{text-align:left}
-  thead th{
-    background:#eef2ff;
-    color:#1e3a8a;
-    position:sticky;
-    top:0;
-    z-index:1;
-  }
-
-  .result-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-  }
-  .result-box{
-    border-radius:12px;
-    padding:10px 12px;
-    border:1px solid var(--border);
-    background:#f9fafb;
-  }
-  .result-box.pkv{
-    background:var(--blue-soft);
-    border-color:#bfdbfe;
-  }
-  .result-box.gkv{
-    background:var(--red-soft);
-    border-color:#fecaca;
-  }
-  .result-label{font-size:11px;color:#4b5563;margin-bottom:2px}
-  .result-value{font-size:18px;font-weight:800;margin:0}
-  .result-tag{font-size:11px;font-weight:700}
-
-  canvas{
-    width:100%;
-    height:260px;
-    background:#f1f5f9;
-    border:1px solid #d0d7e2;
-    border-radius:12px;
-  }
-  #chart2{height:220px}
+  .btn.primary{background:var(--blue);color:#fff}
+  .btn.ghost{background:#eef2ff;color:#1e3a8a;border:1px solid #c7d2fe}
+  .btn.warn{background:#f97373;color:#111827}
+  .btn:hover{filter:brightness(1.03)}
 
   details>summary{cursor:pointer;list-style:none}
   details>summary::-webkit-details-marker{display:none}
@@ -166,21 +95,76 @@
     color:#1e3a8a;
   }
 
-  footer{
-    padding:8px 14px 14px;
-    text-align:center;
-    color:#475569;
-    font-size:11px;
+  .employment-wrapper select{
+    background:#eef2ff;
+    border-color:#bfdbfe;
+    color:#1e40af;
+    font-weight:600;
   }
+
+  .hint{font-size:11px;color:var(--muted);line-height:1.3}
+
+  .result-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .result-box{
+    border-radius:12px;
+    padding:10px 12px;
+    border:1px solid var(--border);
+    background:#f9fafb;
+  }
+  .result-box.pkv{background:var(--blue-soft);border-color:#bfdbfe}
+  .result-box.gkv{background:var(--red-soft);border-color:#fecaca}
+  .result-label{font-size:11px;color:#4b5563;margin-bottom:2px}
+  .result-value{font-size:18px;font-weight:800;margin:0}
+  .result-tag{font-size:11px;font-weight:700}
+
+  canvas{
+    width:100%;
+    height:260px;
+    background:#f1f5f9;
+    border-radius:12px;
+    border:1px solid #d0d7e2;
+  }
+  #chart2{height:220px}
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+    background:#ffffff;
+    border-radius:10px;
+    overflow:hidden;
+  }
+  th,td{
+    padding:5px 6px;
+    border-bottom:1px solid #e5e7eb;
+    font-size:11px;
+    text-align:right;
+    font-variant-numeric:tabular-nums;
+  }
+  th:first-child,td:first-child{text-align:left}
+  thead th{
+    background:#eef2ff;
+    color:#1e3a8a;
+    position:sticky;
+    top:0;
+    z-index:1;
+  }
+  .ok{color:#166534;font-weight:600}
+  .bad{color:#b91c1c;font-weight:600}
+
   #err{
     display:none;
     white-space:pre-wrap;
     background:#fff5f5;
     border:1px solid #fecaca;
     color:#7f1d1d;
-    padding:10px;
+    padding:8px 10px;
     border-radius:10px;
-    margin:10px 0;
+    margin:8px 0;
     font-size:11px;
   }
 
@@ -188,13 +172,22 @@
     margin-top:8px;
     font-size:10px;
     color:#6b7280;
-    text-align:left;
+  }
+  footer{
+    padding:10px 14px 14px;
+    text-align:center;
+    font-size:11px;
+    color:#6b7280;
+  }
+  .red-field{
+    border-color:#fecaca;
+    background:#fef2f2;
   }
 </style>
 </head>
 <body>
 <header>
-  <h1>Lebensphasen-Rechner (PKV/GKV) – V8e</h1>
+  <h1>Lebensphasen-Rechner (PKV/GKV) – V9</h1>
   <p>Jürgen Matterne, Versicherungsfachwirt – 
      <a href="mailto:Juergen.Matterne@vk-makler.de">Juergen.Matterne@vk-makler.de</a></p>
 </header>
@@ -218,143 +211,189 @@
         </select>
       </div>
       <div>
-        <label>Grenzsteuersatz (%)</label>
-        <input id="taxPct" type="number" step="0.1" value="">
+        <label>GKV Startbeitrag (€/Monat)</label>
+        <input id="gkvStart" type="number" step="0.01" value="800">
       </div>
     </div>
 
     <div class="grid-3">
       <div>
-        <label>Absetzbarer Anteil PKV <em>ca.</em> (%)</label>
+        <label>Grenzsteuersatz (%)</label>
+        <input id="taxPct" type="number" step="0.1" value="">
+      </div>
+      <div>
+        <label>Absetzbarer Anteil PKV ca. (%)</label>
         <input id="deduct" type="number" step="0.1" value="">
       </div>
       <div>
-        <label>PKV-Steigerung bis 67 (%)</label>
+        <label>PKV-Steigerung bis 60 (%)</label>
         <input id="incPKV" type="number" step="0.01" value="3.5">
       </div>
+    </div>
+
+    <div class="grid-3">
       <div>
-        <label>GKV-Steigerung bis 67 (%)</label>
-        <input id="incGKV" type="number" step="0.01" value="3.5">
+        <label>PKV-Steigerung 60–67 (%)</label>
+        <input id="incPKV6067" type="number" step="0.01" value="3.0">
+      </div>
+      <div>
+        <label>KT-Steigerung (%)</label>
+        <input id="incKT" type="number" step="0.01" value="0.5">
+      </div>
+      <div>
+        <label>PVN-Steigerung (%)</label>
+        <input id="incPVN" type="number" step="0.01" value="2.0">
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <label>Vorsorge II (Beitragsentlastung) – Steigerung (%)</label>
+        <input id="incV2" type="number" step="0.01" value="0.5">
+      </div>
+      <div class="hint" style="margin-top:22px">
+        Vorsorge&nbsp;10&nbsp;% entfällt ab dem 60. Lebensjahr. Künftige BAPs sollen damit abgefedert werden.
       </div>
     </div>
 
     <!-- Person 1 -->
     <details class="card" open>
-      <summary><span class="chip">Person 1</span></summary>
+      <summary><span class="chip">Person 1 (Hauptversicherter)</span></summary>
       <div class="grid-3">
         <div>
           <label>Geburtsjahr</label>
           <input id="p1_year" type="number" value="1996">
         </div>
         <div>
-          <label>PKV Start (€/Monat)</label>
+          <label>PKV Start inkl. Vorsorge10&nbsp;% (€/Monat)</label>
           <input id="p1_pkv" type="number" step="0.01" value="800">
         </div>
+        <div>
+          <label>PVN Start (€/Monat)</label>
+          <input id="p1_pvn" type="number" step="0.01" value="80">
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div>
+          <label>KT-Beitrag (€/Monat)</label>
+          <input id="p1_kt" type="number" step="0.01" value="20">
+        </div>
+        <div>
+          <label>Vorsorge II – Beitragsentlastung (€/Monat)</label>
+          <input id="p1_v2" type="number" step="0.01" value="0">
+        </div>
+        <div>
+          <label>Garantierte Entlastung im Rentenalter (€/Monat)</label>
+          <input id="p1_entlGarant" type="number" step="0.01" value="500" class="red-field">
+        </div>
+      </div>
+
+      <div class="hint">
+        AG-Höchstzuschuss PKV: 508,59 € • AG-Höchstzuschuss PVN: 104,63 € (nur bei Beschäftigung „Angestellt“).
       </div>
     </details>
 
-    <!-- Person 2–5 -->
+    <!-- Personen 2–5 -->
     <details class="card" id="secP2">
-      <summary><span class="chip">Person 2</span></summary>
+      <summary><span class="chip">Person 2 (optional)</span></summary>
       <div class="grid-4">
-        <div><label>Geburtsjahr</label><input id="p2_year" type="number" value=""></div>
-        <div><label>Eintrittsdatum (Monat/Jahr)</label><input id="p2_joinYear" type="number" value=""></div>
+        <div><label>Geburtsjahr</label><input id="p2_year" type="number"></div>
+        <div><label>Eintrittsjahr</label><input id="p2_joinYear" type="number"></div>
         <div><label>PKV bei Eintritt (€/Monat)</label><input id="p2_pkv" type="number" step="0.01" value="0"></div>
         <div><label>Dauer (Jahre)</label><input id="p2_dur" type="number" value="0"></div>
       </div>
     </details>
 
     <details class="card" id="secP3">
-      <summary><span class="chip">Person 3</span></summary>
+      <summary><span class="chip">Person 3 (optional)</span></summary>
       <div class="grid-4">
-        <div><label>Geburtsjahr</label><input id="p3_year" type="number" value=""></div>
-        <div><label>Eintrittsdatum (Monat/Jahr)</label><input id="p3_joinYear" type="number" value=""></div>
+        <div><label>Geburtsjahr</label><input id="p3_year" type="number"></div>
+        <div><label>Eintrittsjahr</label><input id="p3_joinYear" type="number"></div>
         <div><label>PKV bei Eintritt (€/Monat)</label><input id="p3_pkv" type="number" step="0.01" value="0"></div>
         <div><label>Dauer (Jahre)</label><input id="p3_dur" type="number" value="0"></div>
       </div>
     </details>
 
     <details class="card" id="secP4">
-      <summary><span class="chip">Person 4</span></summary>
+      <summary><span class="chip">Person 4 (optional)</span></summary>
       <div class="grid-4">
-        <div><label>Geburtsjahr</label><input id="p4_year" type="number" value=""></div>
-        <div><label>Eintrittsdatum (Monat/Jahr)</label><input id="p4_joinYear" type="number" value=""></div>
+        <div><label>Geburtsjahr</label><input id="p4_year" type="number"></div>
+        <div><label>Eintrittsjahr</label><input id="p4_joinYear" type="number"></div>
         <div><label>PKV bei Eintritt (€/Monat)</label><input id="p4_pkv" type="number" step="0.01" value="0"></div>
         <div><label>Dauer (Jahre)</label><input id="p4_dur" type="number" value="0"></div>
       </div>
     </details>
 
     <details class="card" id="secP5">
-      <summary><span class="chip">Person 5</span></summary>
+      <summary><span class="chip">Person 5 (optional)</span></summary>
       <div class="grid-4">
-        <div><label>Geburtsjahr</label><input id="p5_year" type="number" value=""></div>
-        <div><label>Eintrittsdatum (Monat/Jahr)</label><input id="p5_joinYear" type="number" value=""></div>
+        <div><label>Geburtsjahr</label><input id="p5_year" type="number"></div>
+        <div><label>Eintrittsjahr</label><input id="p5_joinYear" type="number"></div>
         <div><label>PKV bei Eintritt (€/Monat)</label><input id="p5_pkv" type="number" step="0.01" value="0"></div>
         <div><label>Dauer (Jahre)</label><input id="p5_dur" type="number" value="0"></div>
       </div>
     </details>
 
-    <!-- GKV Parameter -->
+    <!-- Phase 67–90 -->
     <details class="card" open>
-      <summary><span class="chip">GKV – Parameter & Zusatz</span></summary>
+      <summary><span class="chip">Phase 67–90 Jahre</span></summary>
       <div class="grid-3">
-        <div><label>BBG Monat (€, Start)</label><input id="bbg" type="number" step="0.01" value="5812.50"></div>
-        <div><label>AG-Zuschuss MAX KV (€/Monat, Start)</label><input id="capKV" type="number" value="508.59"></div>
-        <div><label>AG-Zuschuss MAX Pflege (€/Monat, Start)</label><input id="capPV" type="number" value="104.63"></div>
+        <div>
+          <label>PKV Beitrag ab 67 (€/Monat)</label>
+          <input id="pkv67" type="number" step="0.01" value="800">
+        </div>
+        <div>
+          <label>Beitrag Beitragsentlastung ab 67 (€/Monat)</label>
+          <input id="v2_67" type="number" step="0.01" value="0">
+        </div>
+        <div>
+          <label>GKV Beitrag ab 67 (€/Monat)</label>
+          <input id="gkv67" type="number" step="0.01" value="800">
+        </div>
       </div>
-      <div class="grid-4">
-        <div><label>KV-Satz (%)</label><input id="kv" type="number" step="0.01" value="14.6"></div>
-        <div><label>Zusatzbeitrag KV (%)</label><input id="kvz" type="number" step="0.01" value="3.5"></div>
-        <div><label>Pflege-Satz (%)</label><input id="pv" type="number" step="0.01" value="3.6"></div>
-        <div><label>Zusatz Pflege (%)</label><input id="pvz" type="number" step="0.01" value="0.6"></div>
-      </div>
-      <div class="grid-4">
-        <div><label>Zusatz Ambulant (€/Monat)</label><input id="supp_amb" type="number" step="0.01" value="0"></div>
-        <div><label>Zusatz Stationär (€/Monat)</label><input id="supp_stat" type="number" step="0.01" value="0"></div>
-        <div><label>Zusatz Zahn (€/Monat)</label><input id="supp_zahn" type="number" step="0.01" value="0"></div>
-        <div><label>Krankentagegeld (€/Monat)</label><input id="supp_ktg" type="number" step="0.01" value="0"></div>
+
+      <div class="grid-3">
+        <div>
+          <label>Renten-Zuschuss (€/Monat)</label>
+          <input id="rentSub" type="number" step="0.01" value="320">
+        </div>
+        <div>
+          <label>BAP-Prognose PKV 67–90 (%)</label>
+          <input id="bapPKV" type="number" step="0.1" value="3.0">
+        </div>
+        <div>
+          <label>BAP-Prognose GKV 67–90 (%)</label>
+          <input id="bapGKV" type="number" step="0.1" value="3.0">
+        </div>
       </div>
       <div class="hint">
-        GKV-Grundbeitrag (KV + Pflege) steuerlich zu 100 % ansetzbar. Zusatzversicherungen nicht.
-      </div>
-    </details>
-
-    <!-- Beitragsentlastung / Phase 67–85 -->
-    <details class="card" open>
-      <summary><span class="chip">Beitragsentlastung ab 65 Jahre & Phase 67–85</span></summary>
-      <div class="grid-3">
-        <div><label>Garantierte Entlastung ab 65 (€/Monat)</label><input id="entl_amt" type="number" step="0.01" value="0"></div>
-        <div><label>Beitrag Entlastung (€/Monat) – AG-zuschussfähig</label><input id="entl_prem" type="number" step="0.01" value="0"></div>
-        <div><label>BAP-Prognose 67–85 (%)</label><input id="entl_bap" type="number" step="0.1" value="0.5"></div>
-      </div>
-      <div class="grid-3">
-        <div><label>PKV ab 67 (€/Monat – Start 67)</label><input id="pkv67" type="number" step="0.01" value="800"></div>
-        <div><label>Renten-Zuschuss (€/Monat)</label><input id="rentSub" type="number" step="0.01" value="326"></div>
-        <div><label>GKV 67–85 (€/Monat – Start 67)</label><input id="gkv6785" type="number" step="0.01" value="486"></div>
+        PKV/GKV Beitrag ab 67 wird mit den BAP-Prognosen hochgerechnet, abzüglich Rentenzuschuss.
+        Bei der PKV wird zusätzlich die garantierte Entlastung abgezogen; der Beitragsentlastungsbeitrag läuft weiter.
       </div>
     </details>
 
     <div class="inline">
-      <button class="btn" id="btnCalc">Berechnen</button>
+      <button class="btn primary" id="btnCalc">Berechnen</button>
       <button class="btn ghost" id="btnPrint">Drucken / PDF</button>
       <button class="btn warn" id="btnReset">Zurücksetzen</button>
     </div>
   </section>
 
-  <!-- RECHTER BLOCK: ERGEBNIS + GRAFIKEN -->
+  <!-- RECHTER BLOCK: ERGEBNIS & GRAFIKEN -->
   <section class="card">
     <h2>2) Ergebnisse</h2>
 
     <div class="result-grid">
       <div class="result-box pkv">
         <div class="result-label">
-          <span class="result-tag" style="color:var(--blue-deep)">PKV</span> – Ergebnis 1: bis 67 (nach Steuer)
+          <span class="result-tag" style="color:var(--blue-deep)">PKV</span> – bis 67 (nach Steuer)
         </div>
         <p class="result-value" id="sumPKV">–</p>
       </div>
       <div class="result-box gkv">
         <div class="result-label">
-          <span class="result-tag" style="color:var(--red-deep)">GKV</span> – Ergebnis 1: bis 67 (Netto)
+          <span class="result-tag" style="color:var(--red-deep)">GKV</span> – bis 67
         </div>
         <p class="result-value" id="sumGKV">–</p>
       </div>
@@ -363,15 +402,15 @@
     <div class="result-grid" style="margin-top:10px">
       <div class="result-box pkv">
         <div class="result-label">
-          <span class="result-tag" style="color:var(--blue-deep)">PKV</span> – Ergebnis 2: 67–85 (netto, mit Wachstum)
+          <span class="result-tag" style="color:var(--blue-deep)">PKV</span> – 67–90 (netto, mit BAP)
         </div>
-        <p class="result-value" id="sumPKV6785">–</p>
+        <p class="result-value" id="sumPKV6790">–</p>
       </div>
       <div class="result-box gkv">
         <div class="result-label">
-          <span class="result-tag" style="color:var(--red-deep)">GKV</span> – Ergebnis 2: 67–85 (mit Wachstum)
+          <span class="result-tag" style="color:var(--red-deep)">GKV</span> – 67–90 (netto, mit BAP)
         </div>
-        <p class="result-value" id="sumGKV6785">–</p>
+        <p class="result-value" id="sumGKV6790">–</p>
       </div>
     </div>
 
@@ -386,18 +425,20 @@
       Es wurde Sorgfalt verwandt. Eine Garantie kann nicht übernommen werden.
     </div>
 
-    <div id="tableWrap" style="max-height:48vh;overflow:auto;margin-top:12px">
+    <div id="tableWrap" style="max-height:46vh;overflow:auto;margin-top:10px">
       <table id="tbl">
         <thead>
           <tr>
             <th>Jahr</th>
             <th>Alter P1</th>
-            <th>PKV/Jahr (nach Steuer)</th>
-            <th>GKV/Jahr (Netto)</th>
+            <th>PKV/Jahr netto</th>
+            <th>GKV/Jahr netto</th>
             <th>Diff/Jahr</th>
-            <th>P1</th><th>P2</th><th>P3</th><th>P4</th><th>P5</th>
-            <th>Entl.-Beitrag</th>
-            <th>AG-Zuschuss</th>
+            <th>PKV (Basis)</th>
+            <th>PVN</th>
+            <th>Vorsorge 10&nbsp;%</th>
+            <th>Vorsorge II</th>
+            <th>KT</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -407,115 +448,158 @@
 </main>
 
 <footer>
-  © <span id="yearNow"></span> Jürgen Matterne, Versicherungsfachwirt – Es wurde Sorgfalt verwandt. Eine Garantie kann nicht übernommen werden.
+  © <span id="yearNow"></span> Jürgen Matterne – Es wurde Sorgfalt verwandt. Eine Garantie kann nicht übernommen werden.
 </footer>
 
 <script>
 function euro(n){return(isFinite(n)?n:0).toLocaleString('de-DE',{style:'currency',currency:'EUR'});}
+function GN(id,def){const el=document.getElementById(id);if(!el)return def;const v=parseFloat(el.value);return isNaN(v)?def:v;}
 function grow(v,p,yrs){return v*Math.pow(1+p/100,yrs);}
-function GN(id,def=0){const el=document.getElementById(id);const v=parseFloat(el.value);return isNaN(v)?def:v;}
 
 function compute(){
-  const incPKV=GN('incPKV',3.5),incGKV=GN('incGKV',3.5);
-  const taxPct=GN('taxPct',0),deduct=GN('deduct',0);
+  const startYear=parseInt((document.getElementById('startYM').value||'2026-01').split('-')[0])||2026;
   const emp=document.getElementById('employment').value;
 
-  const capKV0=GN('capKV',508.59),capPV0=GN('capPV',104.63);
-  const bbg0=GN('bbg',5812.50);
-  const kv=GN('kv',14.6),kvz=GN('kvz',3.5),pv=GN('pv',3.6),pvz=GN('pvz',0.6);
+  const taxPct=GN('taxPct',0);
+  const deduct=GN('deduct',0);
 
-  const p1_pkv=GN('p1_pkv',800);
-  const p2_pkv=GN('p2_pkv',0),p2_joinYear=GN('p2_joinYear',0),p2_dur=GN('p2_dur',0);
-  const p3_pkv=GN('p3_pkv',0),p3_joinYear=GN('p3_joinYear',0),p3_dur=GN('p3_dur',0);
-  const p4_pkv=GN('p4_pkv',0),p4_joinYear=GN('p4_joinYear',0),p4_dur=GN('p4_dur',0);
-  const p5_pkv=GN('p5_pkv',0),p5_joinYear=GN('p5_joinYear',0),p5_dur=GN('p5_dur',0);
+  const incPKV=GN('incPKV',3.5);
+  const incPKV6067=GN('incPKV6067',3.0);
+  const incKT=GN('incKT',0.5);
+  const incPVN=GN('incPVN',2.0);
+  const incV2=GN('incV2',0.5);
+  const incGKV=3.5; // Standard-GKV-Steigerung
 
-  const startYear=parseInt((document.getElementById('startYM').value||'2026-01').split('-')[0])||2026;
-  const p1_year=GN('p1_year',startYear-30);
-  const ageStart=Math.max(0,Math.min(90,startYear-p1_year));
+  const gkvStart=GN('gkvStart',800);
+
+  const p1Year=GN('p1_year',startYear-30);
+  const ageStart=startYear-p1Year;
   const years=Math.max(0,67-ageStart);
-  function rel(yAbs){return Math.max(0,yAbs-startYear);}
 
-  const supp0=GN('supp_amb',0)+GN('supp_stat',0)+GN('supp_zahn',0)+GN('supp_ktg',0);
+  const pkvStartIncl10=GN('p1_pkv',800);
+  const basePKV0=pkvStartIncl10/1.1;
+  const v10_0=basePKV0*0.1;
+  let pkvBase=basePKV0;
+  let v10=v10_0;
 
-  const entl_amt=GN('entl_amt',0),entl_prem0=GN('entl_prem',0),entl_bap=GN('entl_bap',0.5);
+  let pvn=GN('p1_pvn',80);
+  let kt=GN('p1_kt',20);
+  let v2=GN('p1_v2',0);
+  const entlGarant=GN('p1_entlGarant',500);
+
+  const p2={pkv:GN('p2_pkv',0),join:GN('p2_joinYear',0),dur:GN('p2_dur',0)};
+  const p3={pkv:GN('p3_pkv',0),join:GN('p3_joinYear',0),dur:GN('p3_dur',0)};
+  const p4={pkv:GN('p4_pkv',0),join:GN('p4_joinYear',0),dur:GN('p4_dur',0)};
+  const p5={pkv:GN('p5_pkv',0),join:GN('p5_joinYear',0),dur:GN('p5_dur',0)};
+
+  const capPKV=508.59,capPVN=104.63;
 
   const rows=[];
   let sumPKV=0,sumGKV=0,cumPKV=0,cumGKV=0;
 
-  for(let y=0;y<=years;y++){
+  function child(yearAbs,person){
+    if(!person.join || !person.pkv || person.dur<=0)return 0;
+    if(yearAbs<person.join || yearAbs>=person.join+person.dur)return 0;
+    const diff=yearAbs-person.join;
+    return grow(person.pkv,incPKV,diff);
+  }
+
+  for(let y=0;y<years;y++){
+    const yearAbs=startYear+y;
     const age=ageStart+y;
 
-    let p1=grow(p1_pkv,incPKV,y);
-    function member(joinYear,prem0,dur){
-      if(!joinYear||prem0<=0||dur<=0)return 0;
-      const ry=rel(joinYear);
-      if(y<ry||y>=ry+dur)return 0;
-      return grow(prem0,incPKV,y-ry);
-    }
-    let p2=member(p2_joinYear,p2_pkv,p2_dur);
-    let p3=member(p3_joinYear,p3_pkv,p3_dur);
-    let p4=member(p4_joinYear,p4_pkv,p4_dur);
-    let p5=member(p5_joinYear,p5_pkv,p5_dur);
+    let pkvMonthlyMain=pkvBase+v10;
+    let pvnMonthly=pvn;
+    let ktMonthly=kt;
+    let v2Monthly=v2;
 
-    let entlPrem=grow(entl_prem0,entl_bap,y);
-    let pkvMonthGross=p1+p2+p3+p4+p5+entlPrem;
-    if(age>=65)pkvMonthGross=Math.max(0,pkvMonthGross-entl_amt);
+    const pkvP2=child(yearAbs,p2);
+    const pkvP3=child(yearAbs,p3);
+    const pkvP4=child(yearAbs,p4);
+    const pkvP5=child(yearAbs,p5);
 
-    let capKVy=grow(capKV0,incGKV,y);
-    let agPKV=0;
-    if(emp==='angestellt'){agPKV=Math.min(0.5*pkvMonthGross,capKVy);}
-    const employeePKV=Math.max(0,pkvMonthGross-agPKV);
-    const taxSavePKV=employeePKV*(deduct/100)*(taxPct/100);
-    const pkvYear=Math.max(0,employeePKV-taxSavePKV)*12;
-    sumPKV+=pkvYear;cumPKV+=pkvYear;
+    let pkvTotalMonth=pkvMonthlyMain+pvnMonthly+ktMonthly+v2Monthly+pkvP2+pkvP3+pkvP4+pkvP5;
 
-    const bbgY=grow(bbg0,incGKV,y);
-    const kv_partY=bbgY*((kv+kvz)/100);
-    const pv_partY=bbgY*((pv+pvz)/100);
-    let capKVgy=grow(capKV0,incGKV,y),capPVgy=grow(capPV0,incGKV,y);
-    let agKV=0,agPV=0;
+    let agPKV=0,agPVN=0;
     if(emp==='angestellt'){
-      agKV=Math.min(0.5*kv_partY,capKVgy);
-      agPV=Math.min(0.5*pv_partY,capPVgy);
+      agPKV=Math.min(0.5*pkvMonthlyMain,capPKV);
+      agPVN=Math.min(0.5*pvnMonthly,capPVN);
     }
-    const employeeBase=(kv_partY-agKV)+(pv_partY-agPV);
-    const taxSaveGKV=employeeBase*(taxPct/100);
-    const suppY=grow(supp0,incGKV,y);
-    const gkvYear=(Math.max(0,employeeBase-taxSaveGKV)+suppY)*12;
-    sumGKV+=gkvYear;cumGKV+=gkvYear;
+
+    const employeeMonthPKV = pkvTotalMonth - agPKV - agPVN;
+    const steuerBasis = pkvMonthlyMain + pvnMonthly;
+    const taxSave = steuerBasis*(deduct/100)*(taxPct/100);
+    const pkvNetMonth = employeeMonthPKV - taxSave;
+    const pkvYear = pkvNetMonth*12;
+    sumPKV += pkvYear; cumPKV += pkvYear;
+
+    const gkvMonthGross = grow(gkvStart,incGKV,y);
+    let agGKV=0;
+    if(emp==='angestellt') agGKV = gkvMonthGross*0.5;
+    const gkvNetMonth = gkvMonthGross - agGKV;
+    const gkvYear = gkvNetMonth*12;
+    sumGKV += gkvYear; cumGKV += gkvYear;
 
     rows.push({
-      y,age,pkvYear,gkvYear,diff:pkvYear-gkvYear,
-      p1,p2,p3,p4,p5,entlPrem,ag:agPKV+agKV+agPV,
-      cumPKV,cumGKV
+      y:yearAbs,
+      age,
+      pkvYear,
+      gkvYear,
+      diff:pkvYear-gkvYear,
+      pkvBase:pkvMonthlyMain,
+      pvn:pvnMonthly,
+      v10:v10,
+      v2:v2Monthly,
+      kt:ktMonthly,
+      cumPKV,
+      cumGKV
     });
+
+    if(age<60){
+      pkvBase = grow(pkvBase,incPKV,1);
+      v10     = grow(v10,incPKV,1);
+    }else{
+      pkvBase = grow(pkvBase,incPKV6067,1);
+      v10 = 0;
+    }
+    pvn = grow(pvn,incPVN,1);
+    kt  = grow(kt,incKT,1);
+    v2  = grow(v2,incV2,1);
   }
 
-  const pkv67=GN('pkv67',800),rentSub=GN('rentSub',326),gkv6785=GN('gkv6785',486);
-  let sumPKV6785=0,sumGKV6785=0;
-  const phaseYears=18; // 67–85
+  const pkv67=GN('pkv67',800);
+  const v2_67=GN('v2_67',0);
+  const gkv67=GN('gkv67',800);
+  const rentSub=GN('rentSub',320);
+  const bapPKV=GN('bapPKV',3);
+  const bapGKV=GN('bapGKV',3);
+
+  let sumPKV6790=0,sumGKV6790=0;
+  const phaseYears=90-67+1;
+
   for(let i=0;i<phaseYears;i++){
-    const pkv_t=grow(pkv67,entl_bap,i);
-    const entl_t=grow(entl_prem0,entl_bap,years+i);
-    const gkv_t=grow(gkv6785,entl_bap,i);
-    let pkvMonthly=Math.max(0,pkv_t+entl_t-rentSub-entl_amt);
-    sumPKV6785+=pkvMonthly*12;
-    sumGKV6785+=gkv_t*12;
+    const pkv_t=grow(pkv67,bapPKV,i);
+    const gkv_t=grow(gkv67,bapGKV,i);
+    const v2_t=grow(v2_67,incV2,i);
+
+    const pkvNetMonth = Math.max(0,pkv_t - entlGarant) - rentSub + v2_t;
+    const gkvNetMonth = gkv_t - rentSub;
+
+    sumPKV6790 += pkvNetMonth*12;
+    sumGKV6790 += gkvNetMonth*12;
   }
 
-  return {rows,sumPKV,sumGKV,sumPKV6785,sumGKV6785};
+  return {rows,sumPKV,sumGKV,sumPKV6790,sumGKV6790};
 }
 
-/* --- Diagramme: dunkler, kontrastreich, Legende kleiner --- */
+/* Diagramme */
 function drawChart1(rows){
   const c=document.getElementById('chart1'),ctx=c.getContext('2d');
   ctx.clearRect(0,0,c.width,c.height);
-  const pad=36,w=c.width-pad*2,h=c.height-pad*2;
+  const pad=32,w=c.width-pad*2,h=c.height-pad*2;
   const ys1=rows.map(r=>r.cumPKV||0),ys2=rows.map(r=>r.cumGKV||0);
   const ymax=Math.max(1,Math.max(...ys1,...ys2)*1.05);
 
-  // Hintergrund & Achsen
   ctx.fillStyle='#e5e7eb';
   ctx.fillRect(pad-1,pad-1,w+2,h+2);
 
@@ -533,7 +617,7 @@ function drawChart1(rows){
   for(let i=0;i<=steps;i++){
     const y=pad+h-i*h/steps;
     const v=ymax*i/steps;
-    ctx.fillText(euro(v),6,y+4);
+    ctx.fillText(euro(v),4,y+4);
     ctx.strokeStyle='#d9e2f2';
     ctx.beginPath();
     ctx.moveTo(pad,y);
@@ -555,22 +639,8 @@ function drawChart1(rows){
     });
     ctx.stroke();
   }
-
-  // PKV blau, GKV rot
   plot(ys1,'#2563eb','#1e40af');
   plot(ys2,'#f97373','#b91c1c');
-
-  // kleine Legende unten rechts
-  ctx.font='11px system-ui';
-  const legendY=pad+h+24;
-  ctx.fillStyle='#2563eb';
-  ctx.fillRect(pad+140,legendY-10,10,10);
-  ctx.fillStyle='#475569';
-  ctx.fillText('PKV kumuliert (bis 67)',pad+155,legendY);
-  ctx.fillStyle='#ef4444';
-  ctx.fillRect(pad+320,legendY-10,10,10);
-  ctx.fillStyle='#475569';
-  ctx.fillText('GKV kumuliert (bis 67)',pad+335,legendY);
 }
 
 function drawChart2(sumPKV,sumGKV){
@@ -597,14 +667,14 @@ function drawChart2(sumPKV,sumGKV){
     grd.addColorStop(1,color2);
     ctx.fillStyle=grd;
     ctx.fillRect(x0,y,bw,pad+h-y);
-    ctx.fillStyle='#334155';
+    ctx.fillStyle='#111827';
     ctx.font='11px system-ui';
     ctx.fillText(label,x0,pad+h+16);
     ctx.fillText(euro(val),x0,y-6);
   }
 
-  bar(40,sumPKV,'PKV 67–85','#2563eb','#1e40af');
-  bar(180,sumGKV,'GKV 67–85','#f97373','#b91c1c');
+  bar(40,sumPKV,'PKV 67–90','#2563eb','#1e40af');
+  bar(180,sumGKV,'GKV 67–90','#f97373','#b91c1c');
 }
 
 function render(){
@@ -612,34 +682,38 @@ function render(){
     const res=compute();
     document.getElementById('sumPKV').textContent=euro(res.sumPKV);
     document.getElementById('sumGKV').textContent=euro(res.sumGKV);
-    document.getElementById('sumPKV6785').textContent=euro(res.sumPKV6785);
-    document.getElementById('sumGKV6785').textContent=euro(res.sumGKV6785);
+    document.getElementById('sumPKV6790').textContent=euro(res.sumPKV6790);
+    document.getElementById('sumGKV6790').textContent=euro(res.sumGKV6790);
 
-    const tb=document.querySelector('#tbl tbody');tb.innerHTML='';
+    const tb=document.querySelector('#tbl tbody');
+    tb.innerHTML='';
     res.rows.forEach(r=>{
       const tr=document.createElement('tr');
-      function cell(t,cls){const td=document.createElement('td');td.textContent=t;if(cls)td.className=cls;tr.appendChild(td);}
+      function cell(t,cls){
+        const td=document.createElement('td');
+        td.textContent=t;
+        if(cls)td.className=cls;
+        tr.appendChild(td);
+      }
       cell(String(r.y));
       cell(String(r.age));
       cell(euro(r.pkvYear));
       cell(euro(r.gkvYear));
       cell(euro(r.diff),r.diff>0?'bad':'ok');
-      cell(euro(r.p1));
-      cell(euro(r.p2));
-      cell(euro(r.p3));
-      cell(euro(r.p4));
-      cell(euro(r.p5));
-      cell(euro(r.entlPrem));
-      cell(euro(r.ag));
+      cell(euro(r.pkvBase));
+      cell(euro(r.pvn));
+      cell(euro(r.v10));
+      cell(euro(r.v2));
+      cell(euro(r.kt));
       tb.appendChild(tr);
     });
 
     drawChart1(res.rows);
-    drawChart2(res.sumPKV6785,res.sumGKV6785);
+    drawChart2(res.sumPKV6790,res.sumGKV6790);
     document.getElementById('err').style.display='none';
   }catch(e){
     const box=document.getElementById('err');
-    box.textContent='Fehler: '+e.message+'\n'+(e.stack||'');
+    box.textContent='Fehler: '+e.message;
     box.style.display='block';
   }
 }
@@ -648,12 +722,21 @@ function resetDefaults(){
   const set=(id,val)=>{const el=document.getElementById(id);if(el)el.value=val;};
   set('startYM','2026-01');
   set('employment','angestellt');
+  set('gkvStart','800');
   set('taxPct','');
   set('deduct','');
   set('incPKV','3.5');
-  set('incGKV','3.5');
+  set('incPKV6067','3.0');
+  set('incKT','0.5');
+  set('incPVN','2.0');
+  set('incV2','0.5');
 
-  set('p1_year','1996');set('p1_pkv','800');
+  set('p1_year','1996');
+  set('p1_pkv','800');
+  set('p1_pvn','80');
+  set('p1_kt','20');
+  set('p1_v2','0');
+  set('p1_entlGarant','500');
 
   ['2','3','4','5'].forEach(n=>{
     set('p'+n+'_year','');
@@ -662,19 +745,12 @@ function resetDefaults(){
     set('p'+n+'_dur','0');
   });
 
-  set('bbg','5812.50');
-  set('capKV','508.59');
-  set('capPV','104.63');
-  set('kv','14.6');set('kvz','3.5');set('pv','3.6');set('pvz','0.6');
-  set('supp_amb','0');set('supp_stat','0');set('supp_zahn','0');set('supp_ktg','0');
-
-  set('entl_amt','0');set('entl_prem','0');set('entl_bap','0.5');
-  set('pkv67','800');set('rentSub','326');set('gkv6785','486');
-
-  ['secP2','secP3','secP4','secP5'].forEach(id=>{
-    const d=document.getElementById(id);
-    if(d)d.open=false;
-  });
+  set('pkv67','800');
+  set('v2_67','0');
+  set('gkv67','800');
+  set('rentSub','320');
+  set('bapPKV','3.0');
+  set('bapGKV','3.0');
 }
 
 function autoToggle(sectionId,inputIds){
@@ -697,6 +773,7 @@ function autoToggle(sectionId,inputIds){
 document.getElementById('btnCalc').addEventListener('click',render);
 document.getElementById('btnPrint').addEventListener('click',()=>window.print());
 document.getElementById('btnReset').addEventListener('click',()=>{resetDefaults();});
+
 window.addEventListener('DOMContentLoaded',()=>{
   resetDefaults();
   autoToggle('secP2',['p2_pkv','p2_dur']);
