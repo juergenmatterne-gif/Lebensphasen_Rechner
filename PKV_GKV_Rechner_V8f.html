@@ -183,15 +183,24 @@
     border-color:#fecaca;
     background:#fef2f2;
   }
-
   @media print{
     body{background:#ffffff;}
     main{display:block;padding:0;}
     .card{box-shadow:none;border-radius:0;border:none;}
-    #tableWrap{max-height:none;overflow:visible;}
+
+    /* Tabelle vollständig über mehrere Seiten drucken */
+    #tableWrap{
+      max-height:none !important;
+      overflow:visible !important;
+    }
+    thead th{
+      position:static !important;   /* sticky-Header im Druck deaktivieren */
+    }
+
     header,footer{page-break-after:avoid;}
     canvas{page-break-inside:avoid;}
   }
+  
 </style>
 </head>
 <body>
