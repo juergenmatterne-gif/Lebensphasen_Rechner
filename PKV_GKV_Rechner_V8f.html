@@ -284,19 +284,20 @@
           <input id="p1_v2" type="number" step="0.01" value="0">
         </div>
         <div>
-          <label>Garantierte Entlastung im Rentenalter (€/Monat)</label>
+          <label>Garantierte Entlastung im Rentenalter (Info, €/Monat)</label>
           <input id="p1_entlGarant" type="number" step="0.01" value="500" class="red-field">
         </div>
       </div>
 
       <div class="hint">
-        AG-Höchstzuschuss PKV: 508,59 € • AG-Höchstzuschuss PVN: 104,63 € (nur bei Beschäftigung „Angestellt“).
+        AG-Höchstzuschuss PKV: 508,59 € • AG-Höchstzuschuss PVN: 104,63 € –
+        steigt jährlich um 6&nbsp;% (nur bei Beschäftigung „Angestellt“).
       </div>
     </details>
 
     <!-- Personen 2–5 -->
     <details class="card" id="secP2">
-      <summary><span class="chip">Person 2 (optional)</span></summary>
+      <summary><span class="chip">Person 2 (Partner, optional)</span></summary>
       <div class="grid-4">
         <div><label>Geburtsjahr</label><input id="p2_year" type="number"></div>
         <div><label>Eintrittsjahr</label><input id="p2_joinYear" type="number"></div>
@@ -306,7 +307,7 @@
     </details>
 
     <details class="card" id="secP3">
-      <summary><span class="chip">Person 3 (optional)</span></summary>
+      <summary><span class="chip">Person 3 (Kind, optional)</span></summary>
       <div class="grid-4">
         <div><label>Geburtsjahr</label><input id="p3_year" type="number"></div>
         <div><label>Eintrittsjahr</label><input id="p3_joinYear" type="number"></div>
@@ -316,7 +317,7 @@
     </details>
 
     <details class="card" id="secP4">
-      <summary><span class="chip">Person 4 (optional)</span></summary>
+      <summary><span class="chip">Person 4 (Kind, optional)</span></summary>
       <div class="grid-4">
         <div><label>Geburtsjahr</label><input id="p4_year" type="number"></div>
         <div><label>Eintrittsjahr</label><input id="p4_joinYear" type="number"></div>
@@ -326,7 +327,7 @@
     </details>
 
     <details class="card" id="secP5">
-      <summary><span class="chip">Person 5 (optional)</span></summary>
+      <summary><span class="chip">Person 5 (Kind, optional)</span></summary>
       <div class="grid-4">
         <div><label>Geburtsjahr</label><input id="p5_year" type="number"></div>
         <div><label>Eintrittsjahr</label><input id="p5_joinYear" type="number"></div>
@@ -340,12 +341,12 @@
       <summary><span class="chip">Phase 67–90 Jahre</span></summary>
       <div class="grid-3">
         <div>
-          <label>PKV Beitrag ab 67 (€/Monat)</label>
+          <label>PKV Beitrag ab 67 (ggf. inkl. Beitragsentlastung, €/Monat)</label>
           <input id="pkv67" type="number" step="0.01" value="800">
         </div>
         <div>
-          <label>Beitrag Beitragsentlastung ab 67 (€/Monat)</label>
-          <input id="v2_67" type="number" step="0.01" value="0">
+          <label>Garantierte Entlastung (€/Monat)</label>
+          <input id="v2_67" type="number" step="0.01" value="500">
         </div>
         <div>
           <label>GKV Beitrag ab 67 (€/Monat)</label>
@@ -369,7 +370,7 @@
       </div>
       <div class="hint">
         PKV/GKV Beitrag ab 67 wird mit den BAP-Prognosen hochgerechnet, abzüglich Rentenzuschuss.
-        Bei der PKV wird zusätzlich die garantierte Entlastung abgezogen; der Beitragsentlastungsbeitrag läuft weiter.
+        Bei der PKV wird zusätzlich die garantierte Entlastung abgezogen; der Beitragsentlastungsbeitrag ist im PKV-Beitrag enthalten.
       </div>
     </details>
 
@@ -431,9 +432,11 @@
           <tr>
             <th>Jahr</th>
             <th>Alter P1</th>
-            <th>PKV/Jahr netto</th>
-            <th>GKV/Jahr netto</th>
-            <th>Diff/Jahr</th>
+            <th>PKV gesamt/Jahr</th>
+            <th>AG-Zuschuss PKV+PVN/Jahr</th>
+            <th>GKV gesamt/Jahr</th>
+            <th>AG-Zuschuss GKV/Jahr</th>
+            <th>Weitere Pers. PKV/Jahr</th>
             <th>PKV (Basis)</th>
             <th>PVN</th>
             <th>Vorsorge 10&nbsp;%</th>
@@ -468,7 +471,7 @@ function compute(){
   const incKT=GN('incKT',0.5);
   const incPVN=GN('incPVN',2.0);
   const incV2=GN('incV2',0.5);
-  const incGKV=3.5; // Standard-GKV-Steigerung
+  const incGKV=3.5; // GKV-Steigerung
 
   const gkvStart=GN('gkvStart',800);
 
@@ -485,14 +488,14 @@ function compute(){
   let pvn=GN('p1_pvn',80);
   let kt=GN('p1_kt',20);
   let v2=GN('p1_v2',0);
-  const entlGarant=GN('p1_entlGarant',500);
 
-  const p2={pkv:GN('p2_pkv',0),join:GN('p2_joinYear',0),dur:GN('p2_dur',0)};
-  const p3={pkv:GN('p3_pkv',0),join:GN('p3_joinYear',0),dur:GN('p3_dur',0)};
-  const p4={pkv:GN('p4_pkv',0),join:GN('p4_joinYear',0),dur:GN('p4_dur',0)};
-  const p5={pkv:GN('p5_pkv',0),join:GN('p5_joinYear',0),dur:GN('p5_dur',0)};
+  // Personen 2–5
+  const p2={pkv:GN('p2_pkv',0),join:GN('p2_joinYear',0),dur:GN('p2_dur',0),birth:GN('p2_year',0),type:'partner'};
+  const p3={pkv:GN('p3_pkv',0),join:GN('p3_joinYear',0),dur:GN('p3_dur',0),birth:GN('p3_year',0),type:'child'};
+  const p4={pkv:GN('p4_pkv',0),join:GN('p4_joinYear',0),dur:GN('p4_dur',0),birth:GN('p4_year',0),type:'child'};
+  const p5={pkv:GN('p5_pkv',0),join:GN('p5_joinYear',0),dur:GN('p5_dur',0),birth:GN('p5_year',0),type:'child'};
 
-  const capPKV=508.59,capPVN=104.63;
+  const capPKV0=508.59,capPVN0=104.63;
 
   const rows=[];
   let sumPKV=0,sumGKV=0,cumPKV=0,cumGKV=0;
@@ -500,13 +503,25 @@ function compute(){
   function child(yearAbs,person){
     if(!person.join || !person.pkv || person.dur<=0)return 0;
     if(yearAbs<person.join || yearAbs>=person.join+person.dur)return 0;
-    const diff=yearAbs-person.join;
-    return grow(person.pkv,incPKV,diff);
+    const base=person.pkv;
+    if(person.type==='child' && person.birth){
+      const age=yearAbs-person.birth;
+      if(age<19) return base;               // bis 19 keine Steigerung
+      const start19=person.birth+19;
+      const diff=Math.max(0,yearAbs-start19);
+      return grow(base,incPKV,diff);
+    }else{
+      const diff=yearAbs-person.join;
+      return grow(base,incPKV,diff);
+    }
   }
 
   for(let y=0;y<years;y++){
     const yearAbs=startYear+y;
     const age=ageStart+y;
+
+    const capPKVy=grow(capPKV0,6,y);
+    const capPVNy=grow(capPVN0,6,y);
 
     let pkvMonthlyMain=pkvBase+v10;
     let pvnMonthly=pvn;
@@ -517,35 +532,48 @@ function compute(){
     const pkvP3=child(yearAbs,p3);
     const pkvP4=child(yearAbs,p4);
     const pkvP5=child(yearAbs,p5);
+    const pkvChildrenMonth=pkvP2+pkvP3+pkvP4+pkvP5;
 
-    let pkvTotalMonth=pkvMonthlyMain+pvnMonthly+ktMonthly+v2Monthly+pkvP2+pkvP3+pkvP4+pkvP5;
+    let pkvTotalMonth=pkvMonthlyMain+pvnMonthly+ktMonthly+v2Monthly+pkvChildrenMonth;
 
     let agPKV=0,agPVN=0;
     if(emp==='angestellt'){
-      agPKV=Math.min(0.5*pkvMonthlyMain,capPKV);
-      agPVN=Math.min(0.5*pvnMonthly,capPVN);
+      agPKV=Math.min(0.5*pkvMonthlyMain,capPKVy);
+      agPVN=Math.min(0.5*pvnMonthly,capPVNy);
     }
 
-    const employeeMonthPKV = pkvTotalMonth - agPKV - agPVN;
+    const agTotalPKVMonth=agPKV+agPVN;
+    const employeeMonthPKV = pkvTotalMonth - agTotalPKVMonth;
+
     const steuerBasis = pkvMonthlyMain + pvnMonthly;
     const taxSave = steuerBasis*(deduct/100)*(taxPct/100);
     const pkvNetMonth = employeeMonthPKV - taxSave;
-    const pkvYear = pkvNetMonth*12;
-    sumPKV += pkvYear; cumPKV += pkvYear;
+    const pkvYearNet = pkvNetMonth*12;
+    const pkvYearGross = pkvTotalMonth*12;
+    const agYearPKV = agTotalPKVMonth*12;
+
+    sumPKV += pkvYearNet; 
+    cumPKV += pkvYearNet;
 
     const gkvMonthGross = grow(gkvStart,incGKV,y);
     let agGKV=0;
     if(emp==='angestellt') agGKV = gkvMonthGross*0.5;
     const gkvNetMonth = gkvMonthGross - agGKV;
-    const gkvYear = gkvNetMonth*12;
-    sumGKV += gkvYear; cumGKV += gkvYear;
+    const gkvYearNet = gkvNetMonth*12;
+    const gkvYearGross = gkvMonthGross*12;
+    const agYearGKV = agGKV*12;
+
+    sumGKV += gkvYearNet; 
+    cumGKV += gkvYearNet;
 
     rows.push({
       y:yearAbs,
       age,
-      pkvYear,
-      gkvYear,
-      diff:pkvYear-gkvYear,
+      pkvYearGross,
+      agYearPKV,
+      gkvYearGross,
+      agYearGKV,
+      otherYear:pkvChildrenMonth*12,
       pkvBase:pkvMonthlyMain,
       pvn:pvnMonthly,
       v10:v10,
@@ -567,8 +595,9 @@ function compute(){
     v2  = grow(v2,incV2,1);
   }
 
+  // Phase 67–90
   const pkv67=GN('pkv67',800);
-  const v2_67=GN('v2_67',0);
+  const entl67=GN('v2_67',500); // garantierte Entlastung
   const gkv67=GN('gkv67',800);
   const rentSub=GN('rentSub',320);
   const bapPKV=GN('bapPKV',3);
@@ -580,9 +609,8 @@ function compute(){
   for(let i=0;i<phaseYears;i++){
     const pkv_t=grow(pkv67,bapPKV,i);
     const gkv_t=grow(gkv67,bapGKV,i);
-    const v2_t=grow(v2_67,incV2,i);
 
-    const pkvNetMonth = Math.max(0,pkv_t - entlGarant) - rentSub + v2_t;
+    const pkvNetMonth = Math.max(0,pkv_t - entl67) - rentSub;
     const gkvNetMonth = gkv_t - rentSub;
 
     sumPKV6790 += pkvNetMonth*12;
@@ -639,8 +667,8 @@ function drawChart1(rows){
     });
     ctx.stroke();
   }
-  plot(ys1,'#2563eb','#1e40af');
-  plot(ys2,'#f97373','#b91c1c');
+  plot(ys1,'#2563eb','#1e40af'); // PKV
+  plot(ys2,'#f97373','#b91c1c'); // GKV
 }
 
 function drawChart2(sumPKV,sumGKV){
@@ -697,9 +725,11 @@ function render(){
       }
       cell(String(r.y));
       cell(String(r.age));
-      cell(euro(r.pkvYear));
-      cell(euro(r.gkvYear));
-      cell(euro(r.diff),r.diff>0?'bad':'ok');
+      cell(euro(r.pkvYearGross));
+      cell(euro(r.agYearPKV));
+      cell(euro(r.gkvYearGross));
+      cell(euro(r.agYearGKV));
+      cell(euro(r.otherYear));
       cell(euro(r.pkvBase));
       cell(euro(r.pvn));
       cell(euro(r.v10));
@@ -746,7 +776,7 @@ function resetDefaults(){
   });
 
   set('pkv67','800');
-  set('v2_67','0');
+  set('v2_67','500');
   set('gkv67','800');
   set('rentSub','320');
   set('bapPKV','3.0');
