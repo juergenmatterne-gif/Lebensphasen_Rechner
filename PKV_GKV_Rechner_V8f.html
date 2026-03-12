@@ -1,211 +1,172 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Lebensphasen-Rechner (PKV/GKV) – V9</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lebensphasen-Rechner (PKV/GKV) – V10</title>
+  <style>
+    :root{
+      --bg:#f3f4f8;
+      --panel:#ffffff;
+      --ink:#0f172a;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --blue:#1d4ed8;
+      --blue-soft:#dbeafe;
+      --blue-deep:#1e3a8a;
+      --red:#dc2626;
+      --red-soft:#fee2e2;
+      --red-deep:#b91c1c;
+    }
+    *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    body{margin:0;background:var(--bg);color:var(--ink)}
+    header{
+      padding:14px 18px;
+      background:linear-gradient(90deg,#e0ecff,#e5ebff);
+      border-bottom:1px solid var(--border);
+    }
+    header h1{margin:0;font-size:20px;font-weight:800}
+    header p{margin:4px 0 0;font-size:12px;color:#4b5563}
+    header a{color:#1d4ed8;text-decoration:none}
+    header a:hover{text-decoration:underline}
 
-<style>
-  :root{
-    --bg:#f3f4f8;
-    --panel:#ffffff;
-    --ink:#0f172a;
-    --muted:#6b7280;
-    --border:#e5e7eb;
-    --blue:#1d4ed8;
-    --blue-soft:#dbeafe;
-    --blue-deep:#1e3a8a;
-    --red:#dc2626;
-    --red-soft:#fee2e2;
-    --red-deep:#b91c1c;
-  }
-  *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-  body{margin:0;background:var(--bg);color:var(--ink)}
-  header{
-    padding:14px 18px;
-    background:linear-gradient(90deg,#e0ecff,#e5ebff);
-    border-bottom:1px solid var(--border);
-  }
-  header h1{margin:0;font-size:20px;font-weight:800}
-  header p{margin:4px 0 0;font-size:12px;color:#4b5563}
-  header a{color:#1d4ed8;text-decoration:none}
-  header a:hover{text-decoration:underline}
+    main{
+      display:grid;
+      grid-template-columns:1.2fr 1fr;
+      gap:14px;
+      padding:14px;
+    }
+    @media(max-width:1100px){main{grid-template-columns:1fr}}
 
-  main{
-    display:grid;
-    grid-template-columns:1.2fr 1fr;
-    gap:14px;
-    padding:14px;
-  }
-  @media(max-width:1050px){main{grid-template-columns:1fr}}
+    .card{
+      background:var(--panel);
+      border-radius:14px;
+      border:1px solid var(--border);
+      padding:12px;
+      box-shadow:0 4px 14px rgba(15,23,42,0.06);
+    }
+    h2{margin:0 0 10px;font-size:16px}
+    label{display:block;font-size:12px;color:#334155;margin:6px 0 4px}
+    input,select{
+      width:100%;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:#fbfdff;
+      font-size:13px;
+    }
+    input:focus,select:focus{
+      outline:none;
+      border-color:#2563eb;
+      box-shadow:0 0 0 1px rgba(37,99,235,.18);
+    }
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    .grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+    @media(max-width:900px){
+      .grid-3,.grid-4{grid-template-columns:1fr 1fr}
+    }
+    .inline{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .btn{
+      border-radius:10px;border:0;padding:8px 14px;font-size:13px;cursor:pointer;font-weight:600;
+    }
+    .btn.primary{background:var(--blue);color:#fff}
+    .btn.ghost{background:#eef2ff;color:#1e3a8a;border:1px solid #c7d2fe}
+    .btn.warn{background:#f97373;color:#111827}
 
-  .card{
-    background:var(--panel);
-    border-radius:14px;
-    border:1px solid var(--border);
-    padding:12px;
-    box-shadow:0 4px 14px rgba(15,23,42,0.06);
-  }
-  h2{margin:0 0 10px;font-size:16px}
+    details>summary{cursor:pointer;list-style:none}
+    details>summary::-webkit-details-marker{display:none}
+    .chip{
+      display:inline-block;padding:3px 8px;border-radius:999px;background:#eef2ff;border:1px solid #c7d2fe;font-size:11px;color:#1e3a8a;
+    }
+    .employment-wrapper select{
+      background:#eef2ff;border-color:#bfdbfe;color:#1e40af;font-weight:700;
+    }
+    .hint{font-size:11px;color:var(--muted);line-height:1.35}
 
-  label{display:block;font-size:12px;color:#334155;margin:6px 0 4px}
-  input,select{
-    width:100%;
-    padding:8px 10px;
-    border-radius:10px;
-    border:1px solid var(--border);
-    background:#fbfdff;
-    font-size:13px;
-  }
-  input:focus,select:focus{
-    outline:none;
-    border-color:#2563eb;
-    box-shadow:0 0 0 1px rgba(37,99,235,.18);
-  }
+    .result-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    .result-box{
+      border-radius:12px;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      background:#f9fafb;
+    }
+    .result-box.pkv{background:var(--blue-soft);border-color:#bfdbfe}
+    .result-box.gkv{background:var(--red-soft);border-color:#fecaca}
+    .result-label{font-size:11px;color:#4b5563;margin-bottom:2px}
+    .result-value{font-size:18px;font-weight:800;margin:0}
+    .result-tag{font-size:11px;font-weight:800}
 
-  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-  .grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
-  @media(max-width:900px){
-    .grid-3,.grid-4{grid-template-columns:1fr 1fr}
-  }
+    canvas{
+      width:100%;
+      height:250px;
+      background:#f1f5f9;
+      border-radius:12px;
+      border:1px solid #d0d7e2;
+    }
+    #chart2{height:220px}
 
-  .inline{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-  .btn{
-    border-radius:10px;
-    border:0;
-    padding:8px 14px;
-    font-size:13px;
-    cursor:pointer;
-    font-weight:600;
-  }
-  .btn.primary{background:var(--blue);color:#fff}
-  .btn.ghost{background:#eef2ff;color:#1e3a8a;border:1px solid #c7d2fe}
-  .btn.warn{background:#f97373;color:#111827}
-  .btn:hover{filter:brightness(1.03)}
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:10px;
+      background:#ffffff;
+      border-radius:10px;
+      overflow:hidden;
+    }
+    th,td{
+      padding:5px 6px;
+      border-bottom:1px solid #e5e7eb;
+      font-size:11px;
+      text-align:right;
+      font-variant-numeric:tabular-nums;
+    }
+    th:first-child,td:first-child{text-align:left}
+    thead th{
+      background:#eef2ff;
+      color:#1e3a8a;
+      position:sticky;
+      top:0;
+      z-index:1;
+    }
 
-  details>summary{cursor:pointer;list-style:none}
-  details>summary::-webkit-details-marker{display:none}
-  .chip{
-    display:inline-block;
-    padding:3px 8px;
-    border-radius:999px;
-    background:#eef2ff;
-    border:1px solid #c7d2fe;
-    font-size:11px;
-    color:#1e3a8a;
-  }
+    #err{
+      display:none;
+      white-space:pre-wrap;
+      background:#fff5f5;
+      border:1px solid #fecaca;
+      color:#7f1d1d;
+      padding:8px 10px;
+      border-radius:10px;
+      margin:8px 0;
+      font-size:11px;
+    }
+    .disclaimer{margin-top:8px;font-size:10px;color:#6b7280}
+    footer{padding:10px 14px 14px;text-align:center;font-size:11px;color:#6b7280}
+    .red-field{border-color:#fecaca;background:#fef2f2}
 
-  .employment-wrapper select{
-    background:#eef2ff;
-    border-color:#bfdbfe;
-    color:#1e40af;
-    font-weight:700;
-  }
-
-  .hint{font-size:11px;color:var(--muted);line-height:1.35}
-
-  .result-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-  }
-  .result-box{
-    border-radius:12px;
-    padding:10px 12px;
-    border:1px solid var(--border);
-    background:#f9fafb;
-  }
-  .result-box.pkv{background:var(--blue-soft);border-color:#bfdbfe}
-  .result-box.gkv{background:var(--red-soft);border-color:#fecaca}
-  .result-label{font-size:11px;color:#4b5563;margin-bottom:2px}
-  .result-value{font-size:18px;font-weight:800;margin:0}
-  .result-tag{font-size:11px;font-weight:800}
-
-  canvas{
-    width:100%;
-    height:260px;
-    background:#f1f5f9;
-    border-radius:12px;
-    border:1px solid #d0d7e2;
-  }
-  #chart2{height:220px}
-
-  table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:10px;
-    background:#ffffff;
-    border-radius:10px;
-    overflow:hidden;
-  }
-  th,td{
-    padding:5px 6px;
-    border-bottom:1px solid #e5e7eb;
-    font-size:11px;
-    text-align:right;
-    font-variant-numeric:tabular-nums;
-  }
-  th:first-child,td:first-child{text-align:left}
-  thead th{
-    background:#eef2ff;
-    color:#1e3a8a;
-    position:sticky;
-    top:0;
-    z-index:1;
-  }
-
-  #err{
-    display:none;
-    white-space:pre-wrap;
-    background:#fff5f5;
-    border:1px solid #fecaca;
-    color:#7f1d1d;
-    padding:8px 10px;
-    border-radius:10px;
-    margin:8px 0;
-    font-size:11px;
-  }
-
-  .disclaimer{
-    margin-top:8px;
-    font-size:10px;
-    color:#6b7280;
-  }
-  footer{
-    padding:10px 14px 14px;
-    text-align:center;
-    font-size:11px;
-    color:#6b7280;
-  }
-  .red-field{
-    border-color:#fecaca;
-    background:#fef2f2;
-  }
-
-  /* Druck: Tabelle wirklich vollständig, sticky deaktiviert, kein Scroll-Cut */
-  @media print{
-    body{background:#ffffff;}
-    main{display:block;padding:0;}
-    .card{box-shadow:none;border-radius:0;border:none;}
-    #tableWrap{max-height:none !important;overflow:visible !important;}
-    thead th{position:static !important;}
-    header,footer{page-break-after:avoid;}
-    canvas{page-break-inside:avoid;}
-  }
-</style>
+    @media print{
+      body{background:#ffffff;}
+      main{display:block;padding:0;}
+      .card{box-shadow:none;border-radius:0;border:none;}
+      #tableWrap{max-height:none !important;overflow:visible !important;}
+      thead th{position:static !important;}
+    }
+  </style>
 </head>
-
 <body>
 <header>
-  <h1>Lebensphasen-Rechner (PKV/GKV) – V9</h1>
+  <h1>Lebensphasen-Rechner (PKV/GKV) – V10</h1>
   <p>Jürgen Matterne, Versicherungsfachwirt –
     <a href="mailto:Juergen.Matterne@vk-makler.de">Juergen.Matterne@vk-makler.de</a>
   </p>
 </header>
 
 <main>
-  <!-- Eingaben -->
   <section class="card">
     <h2>1) Eingaben</h2>
     <div id="err"></div>
@@ -272,7 +233,6 @@
       </div>
     </div>
 
-    <!-- GKV Zusatzversicherungen -->
     <div class="card" style="margin-top:10px">
       <div class="hint" style="margin-bottom:6px"><b>GKV Zusatzversicherungen (Leistungs-Ausgleich)</b></div>
 
@@ -301,13 +261,8 @@
           <input id="gkvAddInc6790" type="number" step="0.01" value="3.0">
         </div>
       </div>
-
-      <div class="hint">
-        Hinweis: Zusatzversicherungen zur GKV sind i.d.R. steuerlich nicht absetzbar.
-      </div>
     </div>
 
-    <!-- Person 1 -->
     <details class="card" open>
       <summary><span class="chip">Person 1 (Hauptversicherter)</span></summary>
 
@@ -343,12 +298,10 @@
 
       <div class="hint">
         AG-Höchstzuschuss PKV: 508,59 € • AG-Höchstzuschuss PVN: 104,63 € –
-        steigt jährlich um 6 % (nur bei Beschäftigung „Angestellt“).
-        Vorsorge 10 % entfällt ab 60. Lebensjahr.
+        steigt jährlich um 6 %. AG-Basis PKV = PKV inkl. Vorsorge10% + KT + Vorsorge II.
       </div>
     </details>
 
-    <!-- Personen 2–5 -->
     <details class="card" id="secP2">
       <summary><span class="chip">Person 2 (Partner, optional)</span></summary>
       <div class="grid-4">
@@ -367,7 +320,6 @@
         <div><label>PKV bei Eintritt (€/Monat)</label><input id="p3_pkv" type="number" step="0.01" value="0"></div>
         <div><label>Dauer (Jahre)</label><input id="p3_dur" type="number" value="0"></div>
       </div>
-      <div class="hint">Hinweis: Kinderbeitrag ohne Steigerung bis 19 Jahre.</div>
     </details>
 
     <details class="card" id="secP4">
@@ -378,7 +330,6 @@
         <div><label>PKV bei Eintritt (€/Monat)</label><input id="p4_pkv" type="number" step="0.01" value="0"></div>
         <div><label>Dauer (Jahre)</label><input id="p4_dur" type="number" value="0"></div>
       </div>
-      <div class="hint">Hinweis: Kinderbeitrag ohne Steigerung bis 19 Jahre.</div>
     </details>
 
     <details class="card" id="secP5">
@@ -389,10 +340,8 @@
         <div><label>PKV bei Eintritt (€/Monat)</label><input id="p5_pkv" type="number" step="0.01" value="0"></div>
         <div><label>Dauer (Jahre)</label><input id="p5_dur" type="number" value="0"></div>
       </div>
-      <div class="hint">Hinweis: Kinderbeitrag ohne Steigerung bis 19 Jahre.</div>
     </details>
 
-    <!-- Phase 67–90 -->
     <details class="card" open>
       <summary><span class="chip">Phase 67–90 Jahre</span></summary>
 
@@ -425,12 +374,6 @@
           <input id="bapGKV" type="number" step="0.1" value="3.0">
         </div>
       </div>
-
-      <div class="hint">
-        PKV/GKV Beitrag ab 67 wird mit den BAP-Prognosen hochgerechnet, abzüglich Rentenzuschuss.
-        Bei der PKV wird zusätzlich die garantierte Entlastung abgezogen.
-        GKV-Zusatzversicherungen werden auch in der Phase 67–90 hinzugerechnet (eigene Steigerung).
-      </div>
     </details>
 
     <div class="inline">
@@ -440,7 +383,6 @@
     </div>
   </section>
 
-  <!-- Ergebnisse -->
   <section class="card">
     <h2>2) Ergebnisse</h2>
 
@@ -471,7 +413,7 @@
     </div>
 
     <div style="margin-top:12px">
-      <canvas id="chart1" width="640" height="260"></canvas>
+      <canvas id="chart1" width="640" height="250"></canvas>
     </div>
     <div style="margin-top:12px">
       <canvas id="chart2" width="640" height="220"></canvas>
@@ -487,18 +429,15 @@
           <tr>
             <th>Jahr</th>
             <th>Alter P1</th>
-
             <th>PKV gesamt/Jahr</th>
             <th>AG-Zuschuss PKV+PVN/Jahr</th>
-
             <th>GKV gesamt/Jahr</th>
             <th>GKV Zusatz/Jahr</th>
             <th>GKV gesamt inkl. Zusatz/Jahr</th>
-
             <th>AG-Zuschuss GKV/Jahr</th>
             <th>Weitere Pers. PKV/Jahr</th>
             <th>Aktive Personen (P1–P5)</th>
-<th>PKV+PVN+Vorsorge (€/Monat)</th>
+            <th>PKV+PVN+Vorsorge (€/Monat)</th>
             <th>PKV (Basis)</th>
             <th>PVN</th>
             <th>Vorsorge 10%</th>
@@ -533,17 +472,11 @@ function compute(){
   const incKT = GN('incKT',0.5);
   const incPVN = GN('incPVN',2.0);
   const incV2 = GN('incV2',0.5);
-
-  const incGKV = GN('incGKV',3.5);                 // GKV-Steigerung bis 67
+  const incGKV = GN('incGKV',3.5);
 
   const gkvStart = GN('gkvStart',1261.31);
 
-  // GKV-Zusatzversicherung
-  const gkvAddAmb = GN('gkvAddAmb',0);
-  const gkvAddStat = GN('gkvAddStat',0);
-  const gkvAddZahn = GN('gkvAddZahn',0);
-  const gkvAddBase = gkvAddAmb + gkvAddStat + gkvAddZahn;
-
+  const gkvAddBase = GN('gkvAddAmb',0) + GN('gkvAddStat',0) + GN('gkvAddZahn',0);
   const gkvAddIncTo67 = GN('gkvAddIncTo67',3.5);
   const gkvAddInc6790 = GN('gkvAddInc6790',3.0);
 
@@ -551,25 +484,23 @@ function compute(){
   const ageStart = startYear - p1Year;
   const yearsTo67 = Math.max(0, 67 - ageStart);
 
-  // PKV: Start enthält bereits Vorsorge10%
   const pkvStartIncl10 = GN('p1_pkv',800);
-  const basePKV0 = pkvStartIncl10/1.1;
-  const v10_0 = basePKV0*0.1;
+  const basePKV0 = pkvStartIncl10 / 1.1;
+  const v10_0 = basePKV0 * 0.1;
 
-  let pkvBase = basePKV0; // Basis ohne 10%
-  let v10 = v10_0;        // Vorsorge 10% bis 60
+  let pkvBase = basePKV0;
+  let v10 = v10_0;
   let pvn = GN('p1_pvn',80);
   let kt  = GN('p1_kt',20);
   let v2  = GN('p1_v2',0);
 
-  // Personen 2–5
   const p2={pkv:GN('p2_pkv',0),join:GN('p2_joinYear',0),dur:GN('p2_dur',0),birth:GN('p2_year',0),type:'partner'};
   const p3={pkv:GN('p3_pkv',0),join:GN('p3_joinYear',0),dur:GN('p3_dur',0),birth:GN('p3_year',0),type:'child'};
   const p4={pkv:GN('p4_pkv',0),join:GN('p4_joinYear',0),dur:GN('p4_dur',0),birth:GN('p4_year',0),type:'child'};
   const p5={pkv:GN('p5_pkv',0),join:GN('p5_joinYear',0),dur:GN('p5_dur',0),birth:GN('p5_year',0),type:'child'};
 
-  // AG Caps
-  const capPKV0=508.59, capPVN0=104.63;
+  const capPKV0 = 508.59;
+  const capPVN0 = 104.63;
 
   const rows=[];
   let sumPKV=0, sumGKV=0;
@@ -580,7 +511,6 @@ function compute(){
     if(yearAbs<person.join || yearAbs>=person.join+person.dur) return 0;
     const base=person.pkv;
 
-    // Kinder: bis 19 keine Steigerung
     if(person.type==='child' && person.birth){
       const age=yearAbs-person.birth;
       if(age<19) return base;
@@ -589,19 +519,18 @@ function compute(){
       return grow(base,incPKV,diff);
     }
 
-    // Partner: ab Eintritt normal steigern
     const diff=yearAbs-person.join;
     return grow(base,incPKV,diff);
   }
 
   for(let y=0;y<yearsTo67;y++){
-    const yearAbs=startYear+y;
-    const age=ageStart+y;
+    const yearAbs = startYear+y;
+    const age = ageStart+y;
 
-    const capPKVy=grow(capPKV0,6,y);
-    const capPVNy=grow(capPVN0,6,y);
+    const capPKVy = grow(capPKV0,6,y);
+    const capPVNy = grow(capPVN0,6,y);
 
-    const pkvMonthlyMain = pkvBase + v10;   // „PKV Start inkl. 10%“
+    const pkvMonthlyMain = pkvBase + v10;
     const pvnMonthly = pvn;
     const ktMonthly  = kt;
     const v2Monthly  = v2;
@@ -613,25 +542,19 @@ function compute(){
     const pkvOthersMonth = pkvP2+pkvP3+pkvP4+pkvP5;
 
     const pkvTotalMonth = pkvMonthlyMain + pvnMonthly + ktMonthly + v2Monthly + pkvOthersMonth;
-const pkvPvnVorsorgeMonth = pkvMonthlyMain + pvnMonthly + v10 + v2Monthly; // PKV+PVN+Vorsorge(10%+II)
-    // AG-Zuschuss-Logik (Angestellt):
-// Basis PKV-Teil = PKV (inkl. Vorsorge10%) + KT + Vorsorge II
-// Basis PVN-Teil = PVN
-// AG = 50% der Basis, gedeckelt auf 508,59 € (PKV) + 104,63 € (PVN), jeweils dynamisiert
-let agPKV=0, agPVN=0;
+    const pkvPvnVorsorgeMonth = pkvMonthlyMain + pvnMonthly + v10 + v2Monthly;
 
-if(emp==='angestellt'){
-  const agBasisPKV = pkvMonthlyMain + ktMonthly + v2Monthly; // PKV+KT+Vorsorge II
-  const agBasisPVN = pvnMonthly;                              // PVN
+    let agPKV=0, agPVN=0;
+    if(emp==='angestellt'){
+      const agBasisPKV = pkvMonthlyMain + ktMonthly + v2Monthly;
+      const agBasisPVN = pvnMonthly;
+      agPKV = Math.min(0.5 * agBasisPKV, capPKVy);
+      agPVN = Math.min(0.5 * agBasisPVN, capPVNy);
+    }
 
-  agPKV = Math.min(0.5 * agBasisPKV, capPKVy);
-  agPVN = Math.min(0.5 * agBasisPVN, capPVNy);
-}
+    const agTotalPKVMonth = agPKV + agPVN;
+    const employeeMonthPKV = pkvTotalMonth - agTotalPKVMonth;
 
-const agTotalPKVMonth = agPKV + agPVN;
-const employeeMonthPKV = pkvTotalMonth - agTotalPKVMonth;
-
-    // Steuer PKV: nur PKV (Basis ohne 10%), PVN, Vorsorge II — nicht KT, nicht Vorsorge10
     const pkvTaxBasisMonth = pkvBase + pvnMonthly + v2Monthly;
     const taxSavePKV = pkvTaxBasisMonth * (deduct/100) * (taxPct/100);
     const pkvNetMonth = employeeMonthPKV - taxSavePKV;
@@ -643,15 +566,13 @@ const employeeMonthPKV = pkvTotalMonth - agTotalPKVMonth;
     sumPKV += pkvYearNet;
     cumPKV += pkvYearNet;
 
-    // GKV Kern + Zusatz (Zusatz ohne AG-Zuschuss)
     const gkvCoreMonthGross = grow(gkvStart, incGKV, y);
     const gkvAddMonth = grow(gkvAddBase, gkvAddIncTo67, y);
 
-    let agGKV=0;
-    if(emp==='angestellt') agGKV = gkvCoreMonthGross * 0.5; // AG nur auf Kern-GKV
-    const employeeMonthGKVTotal = (gkvCoreMonthGross + gkvAddMonth) - agGKV;
+    let agGKV = 0;
+    if(emp==='angestellt') agGKV = gkvCoreMonthGross * 0.5;
 
-    // Steuer GKV: Kern-AN-Anteil voll absetzbar; Zusatz nicht absetzbar
+    const employeeMonthGKVTotal = (gkvCoreMonthGross + gkvAddMonth) - agGKV;
     const taxSaveGKV = (gkvCoreMonthGross - agGKV) * (taxPct/100);
     const gkvNetMonth = employeeMonthGKVTotal - taxSaveGKV;
 
@@ -664,57 +585,52 @@ const employeeMonthPKV = pkvTotalMonth - agTotalPKVMonth;
     sumGKV += gkvYearNet;
     cumGKV += gkvYearNet;
 
-    // Aktive Personen Liste
     const persons=['P1'];
     if(pkvP2>0) persons.push('P2');
     if(pkvP3>0) persons.push('P3');
     if(pkvP4>0) persons.push('P4');
     if(pkvP5>0) persons.push('P5');
-const pkvPvnVorsorgeMonth = pkvMonthlyMain + pvnMonthly + v10 + v2Monthly;
+
     rows.push({
       y:yearAbs,
       age,
       pkvYearGross,
       agYearPKV,
-
       gkvYearGross: gkvYearGrossCore,
       gkvAddYear: gkvYearAdd,
       gkvTotalInclAddYear: gkvYearGrossTotal,
-
       agYearGKV,
       otherYear: pkvOthersMonth*12,
       persons: persons.join(', '),
-pkvPvnVorsorgeMonth,
+      pkvPvnVorsorgeMonth,
       pkvBase: pkvMonthlyMain,
       pvn: pvnMonthly,
       v10: v10,
       v2: v2Monthly,
       kt: ktMonthly,
-
       cumPKV,
       cumGKV
     });
 
-    // Dynamik
-    if(age < 60){
+    if(age<60){
       pkvBase = grow(pkvBase, incPKV, 1);
-      v10     = grow(v10,     incPKV, 1);
+      v10     = grow(v10, incPKV, 1);
     }else{
       pkvBase = grow(pkvBase, incPKV6067, 1);
-      v10 = 0; // Vorsorge10 entfällt ab 60
+      v10 = 0;
     }
+
     pvn = grow(pvn, incPVN, 1);
-    kt  = grow(kt,  incKT,  1);
-    v2  = grow(v2,  incV2,  1);
+    kt  = grow(kt, incKT, 1);
+    v2  = grow(v2, incV2, 1);
   }
 
-  // Phase 67–90
-  const pkv67    = GN('pkv67',800);
-  const entl67   = GN('v2_67',500); // garantierte Entlastung
-  const gkv67    = GN('gkv67',800);
-  const rentSub  = GN('rentSub',320);
-  const bapPKV   = GN('bapPKV',3);
-  const bapGKV   = GN('bapGKV',3);
+  const pkv67 = GN('pkv67',800);
+  const entl67 = GN('v2_67',500);
+  const gkv67 = GN('gkv67',800);
+  const rentSub = GN('rentSub',320);
+  const bapPKV = GN('bapPKV',3);
+  const bapGKV = GN('bapGKV',3);
 
   let sumPKV6790=0, sumGKV6790=0;
   const phaseYears = 90-67+1;
@@ -722,37 +638,31 @@ pkvPvnVorsorgeMonth,
   for(let i=0;i<phaseYears;i++){
     const pkv_t = grow(pkv67, bapPKV, i);
     const gkv_t = grow(gkv67, bapGKV, i);
-
     const gkvAdd_t = grow(gkvAddBase, gkvAddInc6790, i);
 
     const pkvNetMonth = Math.max(0, pkv_t - entl67) - rentSub;
     const gkvNetMonth = (gkv_t + gkvAdd_t) - rentSub;
 
-    sumPKV6790 += pkvNetMonth*12;
-    sumGKV6790 += gkvNetMonth*12;
+    sumPKV6790 += pkvNetMonth * 12;
+    sumGKV6790 += gkvNetMonth * 12;
   }
 
   return {rows,sumPKV,sumGKV,sumPKV6790,sumGKV6790,taxPct};
 }
 
-/* Diagramme */
 function drawChart1(rows){
   const c=document.getElementById('chart1'),ctx=c.getContext('2d');
   ctx.clearRect(0,0,c.width,c.height);
   const pad=32,w=c.width-pad*2,h=c.height-pad*2;
-  const ys1=rows.map(r=>r.cumPKV||0),ys2=rows.map(r=>r.cumGKV||0);
+  const ys1=rows.map(r=>r.cumPKV||0), ys2=rows.map(r=>r.cumGKV||0);
   const ymax=Math.max(1,Math.max(...ys1,...ys2)*1.05);
 
   ctx.fillStyle='#e5e7eb';
   ctx.fillRect(pad-1,pad-1,w+2,h+2);
 
   ctx.strokeStyle='#cbd5e1';
-  ctx.lineWidth=1;
   ctx.beginPath();
-  ctx.moveTo(pad,pad);
-  ctx.lineTo(pad,pad+h);
-  ctx.lineTo(pad+w,pad+h);
-  ctx.stroke();
+  ctx.moveTo(pad,pad); ctx.lineTo(pad,pad+h); ctx.lineTo(pad+w,pad+h); ctx.stroke();
 
   ctx.font='11px system-ui';
   ctx.fillStyle='#475569';
@@ -762,29 +672,23 @@ function drawChart1(rows){
     const v=ymax*i/steps;
     ctx.fillText(euro(v),4,y+4);
     ctx.strokeStyle='#d9e2f2';
-    ctx.beginPath();
-    ctx.moveTo(pad,y);
-    ctx.lineTo(pad+w,y);
-    ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(pad+w,y); ctx.stroke();
   }
 
-  function plot(ys,color1,color2){
+  function plot(ys,c1,c2){
     const grd=ctx.createLinearGradient(pad,pad,pad+w,pad+h);
-    grd.addColorStop(0,color1);
-    grd.addColorStop(1,color2);
-    ctx.strokeStyle=grd;
-    ctx.lineWidth=3;
-    ctx.beginPath();
+    grd.addColorStop(0,c1); grd.addColorStop(1,c2);
+    ctx.strokeStyle=grd; ctx.lineWidth=3; ctx.beginPath();
     ys.forEach((v,i)=>{
       const x=pad+w*(i/Math.max(1,ys.length-1));
       const y=pad+h-(v/ymax)*h;
-      if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+      if(i===0)ctx.moveTo(x,y); else ctx.lineTo(x,y);
     });
     ctx.stroke();
   }
 
-  plot(ys1,'#2563eb','#1e40af'); // PKV
-  plot(ys2,'#f97373','#b91c1c'); // GKV
+  plot(ys1,'#2563eb','#1e40af');
+  plot(ys2,'#f97373','#b91c1c');
 }
 
 function drawChart2(sumPKV,sumGKV){
@@ -798,17 +702,13 @@ function drawChart2(sumPKV,sumGKV){
 
   ctx.strokeStyle='#cbd5e1';
   ctx.beginPath();
-  ctx.moveTo(pad,pad);
-  ctx.lineTo(pad,pad+h);
-  ctx.lineTo(pad+w,pad+h);
-  ctx.stroke();
+  ctx.moveTo(pad,pad); ctx.lineTo(pad,pad+h); ctx.lineTo(pad+w,pad+h); ctx.stroke();
 
-  function bar(x,val,label,color1,color2){
+  function bar(x,val,label,c1,c2){
     const bw=80,x0=pad+x;
     const y=pad+h-(val/ymax)*h;
     const grd=ctx.createLinearGradient(x0,pad,x0,pad+h);
-    grd.addColorStop(0,color1);
-    grd.addColorStop(1,color2);
+    grd.addColorStop(0,c1); grd.addColorStop(1,c2);
     ctx.fillStyle=grd;
     ctx.fillRect(x0,y,bw,pad+h-y);
     ctx.fillStyle='#111827';
@@ -825,7 +725,6 @@ function render(){
   try{
     const res=compute();
 
-    // Ergebnis bis 67 nur anzeigen, wenn Grenzsteuersatz > 0 gesetzt
     const lblPKV67=document.getElementById('lblPKV67');
     const lblGKV67=document.getElementById('lblGKV67');
 
@@ -848,7 +747,6 @@ function render(){
     tb.innerHTML='';
     res.rows.forEach(r=>{
       const tr=document.createElement('tr');
-
       function cell(t){
         const td=document.createElement('td');
         td.textContent=t;
@@ -857,18 +755,15 @@ function render(){
 
       cell(String(r.y));
       cell(String(r.age));
-
       cell(euro(r.pkvYearGross));
       cell(euro(r.agYearPKV));
-
       cell(euro(r.gkvYearGross));
       cell(euro(r.gkvAddYear));
       cell(euro(r.gkvTotalInclAddYear));
-
       cell(euro(r.agYearGKV));
       cell(euro(r.otherYear));
       cell(r.persons||'');
-cell(euro(r.pkvPvnVorsorgeMonth));
+      cell(euro(r.pkvPvnVorsorgeMonth));
       cell(euro(r.pkvBase));
       cell(euro(r.pvn));
       cell(euro(r.v10));
@@ -880,7 +775,6 @@ cell(euro(r.pkvPvnVorsorgeMonth));
 
     drawChart1(res.rows);
     drawChart2(res.sumPKV6790,res.sumGKV6790);
-
     document.getElementById('err').style.display='none';
   }catch(e){
     const box=document.getElementById('err');
@@ -894,7 +788,6 @@ function resetDefaults(){
 
   set('startYM','2026-01');
   set('employment','angestellt');
-
   set('gkvStart','1261.31');
   set('taxPct','');
   set('deduct','');
@@ -953,7 +846,7 @@ function autoToggle(sectionId,inputIds){
 
 document.getElementById('btnCalc').addEventListener('click',render);
 document.getElementById('btnPrint').addEventListener('click',()=>window.print());
-document.getElementById('btnReset').addEventListener('click',()=>{resetDefaults();});
+document.getElementById('btnReset').addEventListener('click',()=>resetDefaults());
 
 window.addEventListener('DOMContentLoaded',()=>{
   resetDefaults();
@@ -964,6 +857,5 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('yearNow').textContent=new Date().getFullYear();
 });
 </script>
-
 </body>
 </html>
