@@ -1,20 +1,45 @@
-# Lebensphasen-Rechner (PKV/GKV) – GitHub Pages
+# Lebensphasen-Rechner (PKV / GKV)
 
-Dieses Repository enthält:
+Professioneller Vergleichsrechner zur Gegenüberstellung von  
+Privater Krankenversicherung (PKV) und Gesetzlicher Krankenversicherung (GKV)  
+über den gesamten Lebensverlauf.
 
-- `index.html` – Startseite
-- `PKV_GKV_Rechner_V8f.html` – eigentlicher Rechner
-- `404.html` – Fehlermeldung & automatische Rückleitung
+## Funktionen
 
-## GitHub Pages einrichten
+- Vergleich PKV vs. GKV bis 67 Jahre
+- Erweiterte Betrachtung von 67 bis 90 Jahre
+- Berücksichtigung von:
+  - Arbeitgeberzuschuss (inkl. Dynamik)
+  - Pflegepflichtversicherung (PVN)
+  - Vorsorgebeitrag (10%)
+  - Beitragsentlastung (Vorsorge II)
+  - Zusatzversicherungen (Ambulant, Stationär, Zahn)
+- Dynamische Beitragssteigerungen:
+  - PKV (bis 60 / 60–67 / 67–90)
+  - GKV
+- Grafische Darstellung
+- Druckfunktion (PDF geeignet)
+- Mehrpersonenfähigkeit (bis 5 Personen)
 
-1. Repo öffnen → **Settings → Pages**
-2. **Source:** `Deploy from a branch`
-3. **Branch:** `main`  •  **Folder:** `/ (root)`
-4. Speichern.  
-   Nach ca. 1–2 Minuten ist die Seite erreichbar unter
+## Nutzung
 
-`https://<DEIN-USER>.github.io/<REPO-NAME>/`
+1. Eingaben vornehmen
+2. "Berechnen" klicken
+3. Ergebnis + Grafik analysieren
+4. Optional: Druck als PDF
 
-Beispiel (bei dir):  
-`https://juergenmatterne-gif.github.io/GKV-PKV_Lebensphasen-Rechner/`
+## Online Zugriff
+
+Nach Aktivierung von GitHub Pages erreichbar unter:
+
+
+## Wichtiger Hinweis
+
+Es wurde Sorgfalt verwandt.  
+Eine Garantie für die Richtigkeit der Berechnung kann nicht übernommen werden.
+
+## Autor
+
+Jürgen Matterne  
+Versicherungsfachwirt  
+📧 Juergen.Matterne@vk-makler.de
